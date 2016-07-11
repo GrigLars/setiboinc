@@ -1,0 +1,32 @@
+#!/bin/sh
+# /etc/init.d/boinc
+# Start/stop/restart
+
+boinc_start() {
+    if [ -x /opt/BOINC/run_client ]; then
+        echo "Starting BOINC."
+        /opt/BOINC/run_client > boinc.log &
+    fi
+}
+boinc_stop() {
+    echo "Stopping BOINC."
+    sudo killall boinc
+}
+boinc_restart() {
+    boinc_stop
+    sleep 3
+    boinc_start
+}
+case "$1?" in
+  'start')
+          boinc_start
+          ;;
+  'stop')
+          boinc_stop
+          ;;
+'restart')
+          boinc_restart
+          ;;
+        *)
+          echo "$0 start|stop|restart" 
+esac
