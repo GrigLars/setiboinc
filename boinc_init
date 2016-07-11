@@ -2,14 +2,17 @@
 # /etc/init.d/boinc
 # Start/stop/restart
 
+BOINC_LOG="/var/log/boinc.log"
+BOINC_PATH="/opt/BOINC"
+
 boinc_start() {
     if [ -x /opt/BOINC/run_client ]; then
-        echo "Starting BOINC."
-        /opt/BOINC/run_client > boinc.log &
+        echo "Starting BOINC..."
+        $BOINC_PATH/run_client > $BOINC_LOG &
     fi
 }
 boinc_stop() {
-    echo "Stopping BOINC."
+    echo "Stopping BOINC..."
     sudo killall boinc
 }
 boinc_restart() {
@@ -17,7 +20,7 @@ boinc_restart() {
     sleep 3
     boinc_start
 }
-case "$1?" in
+case "$1" in
   'start')
           boinc_start
           ;;
@@ -27,6 +30,10 @@ case "$1?" in
 'restart')
           boinc_restart
           ;;
+'attach')
+        $BOINC_PATH/boinc -no_gui_rpc -attach_project http://setiathome.berkeley.edu d14af2375aa9c85dd1251f0f04d09654 > $BOINC_LOG &
+        echo "Starting BOINC with Grig's account attached (first run)..."
+          ;;
         *)
-          echo "$0 start|stop|restart" 
+          echo "$0 start|stop|restart|attach" 
 esac
