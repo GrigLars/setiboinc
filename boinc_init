@@ -14,6 +14,10 @@ boinc_start() {
         exit 1
     fi
 }
+boinc_attach(){
+    ${BOINC_PATH}/boinc -no_gui_rpc -attach_project http://setiathome.berkeley.edu d14af2375aa9c85dd1251f0f04d09654 > ${BOINC_LOG} &
+    echo "Starting BOINC with Grig's account attached (first run)..."
+}
 boinc_stop() {
     echo "Stopping BOINC..."
     echo "Boinc stopped manually by user $0" >> ${BOINC_LOG}
@@ -24,26 +28,29 @@ boinc_restart() {
     sleep 3
     boinc_start
 }
+boinc_drain() {
+    boinc_stop
+    sleep 3
+    echo "Starting BOINC but will exit when all work units are complete..."
+    echo "BOINC restarted with exit_when_idle mode.  Will exit upon completion of work units." | tee -a ${BOINC_LOG}
+    ${BOINC_PATH}/run_client --exit_when_idle >> ${BOINC_LOG}   
+}
+
 case "$1" in
     'start')
-          boinc_start
+        boinc_start
           ;;
     'stop')
-          boinc_stop
+        boinc_stop
           ;;
     'restart')
-          boinc_restart
+        boinc_restart
           ;;
     'attach')
-        ${BOINC_PATH}/boinc -no_gui_rpc -attach_project http://setiathome.berkeley.edu d14af2375aa9c85dd1251f0f04d09654 > ${BOINC_LOG} &
-        echo "Starting BOINC with Grig's account attached (first run)..."
+        boinc_attach
           ;;
     'drain')
-        boinc_stop
-        sleep 3
-        echo "Starting BOINC but will exit when all work units are complete..."
-        echo "BOINC restarted with exit_when_idle mode.  Will exit upon completion of work units." | tee -a ${BOINC_LOG}
-        ${BOINC_PATH}/run_client --exit_when_idle >> ${BOINC_LOG}
+        boinc_drain
           ;;
     *)
           echo "$0 start|stop|restart|attach|drain" 
