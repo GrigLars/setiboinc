@@ -26,6 +26,7 @@ wget https://raw.githubusercontent.com/GrigLars/setiboinc/master/boinc_init -O /
 
 chmod +x /etc/init.d/boinc
 mkdir -p ${BOINC_ROOT}
+cd ${BOINC_ROOT}
 
 # Download right client
 if [ ${MACHINE} eq "i686" ]; then
