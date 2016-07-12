@@ -11,11 +11,12 @@ These are the files I need to run Seti@Boinc on a seti server.
 - This is a setup script that automates an install
 
 ##To Do
-[ ] Logrotate for logs
-[ ] Make some ways to properly install as a service on init or systemd
-[ ] Update the files with my older scripts and moderinize them
+- [ ] Logrotate for logs
+- [ ] Make some ways to properly install as a service on init or systemd
+- [ ] Update the files with my older scripts and moderinize them
 
-######Some links
+##Some links
 https://boinc.berkeley.edu/wiki/Client_configuration
-
+http://www.linuxcommand.org/man_pages/logrotate8.html
+http://setiathome.berkeley.edu/home.php
 
