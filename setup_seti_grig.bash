@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BOINC_ROOT="/opt"
-BOINC_PATH="/opt/BOINC"
+BOINC_PATH="${BOINC_ROOT}/BOINC"
 BOINC_VERSION="7.2.42"
 
 # Must run as root
@@ -10,14 +10,27 @@ BOINC_VERSION="7.2.42"
 MACHINE=$(uname -m)
 
 # Libraries for Debian 8
-# apt-get install libx11-6
-# apt-get install libxss1
+# apt-get install libx11-6 libxss1
 
 
+# Download the init script
+wget https://raw.githubusercontent.com/GrigLars/setiboinc/master/boinc_init -O /etc/init.d/boinc
+
+chmod +x /etc/init.d/boinc
+mkdir -p ${BOINC_ROOT}
 
 # Download right client
+if [ ${MACHINE} eq "i686" ]; then
+  wget http://boinc.berkeley.edu/dl/boinc_${BOINC_VERSION}_i686-pc-linux-gnu.sh
+else
+  wget http://boinc.berkeley.edu/dl/boinc_${BOINC_VERSION}_x86_64-pc-linux-gnu.sh
+fi
+
+sh boinc_*
+cd ${BOINC_PATH}
 
 # Set up service
+
 # systemctl enable boinc
 
 # Set up client
