@@ -16,7 +16,8 @@ These are the files I need to run Seti@Boinc on a seti server.
 - [ ] Update the files with my older scripts and moderinize them
 
 ##Some links
-https://boinc.berkeley.edu/wiki/Client_configuration
-http://www.linuxcommand.org/man_pages/logrotate8.html
-http://setiathome.berkeley.edu/home.php
+- https://boinc.berkeley.edu/wiki/Client_configuration
+- http://www.linuxcommand.org/man_pages/logrotate8.html
+- http://setiathome.berkeley.edu/home.php
+- http://boinc.berkeley.edu/trac/wiki/SourceCodeGit
 
