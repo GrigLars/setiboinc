@@ -34,7 +34,7 @@ mkdir -p ${BOINC_ROOT}
 cd ${BOINC_ROOT}
 
 # Download right client
-if [ ${MACHINE} eq "i686" ]; then
+if [ ${MACHINE} == "i686" ]; then
   wget -nv http://boinc.berkeley.edu/dl/boinc_${BOINC_VERSION}_i686-pc-linux-gnu.sh
 else
   wget -nv http://boinc.berkeley.edu/dl/boinc_${BOINC_VERSION}_x86_64-pc-linux-gnu.sh
@@ -51,4 +51,4 @@ cd ${BOINC_PATH}
 
 # Set up client
 /etc/init.d/boinc attach
-tail -f /var/log/boinc.log
+multitail /var/log/boinc.log
