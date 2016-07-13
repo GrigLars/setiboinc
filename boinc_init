@@ -2,6 +2,12 @@
 # /etc/init.d/boinc
 # Start/stop/restart
 
+# To do
+# - Have color [OK] and such
+# - Better error handling
+# - Have a "boinc status" option
+# - Have a "boinc logrotate" option for logrotate
+
 BOINC_LOG="/var/log/boinc.log"
 BOINC_PATH="/opt/BOINC"
 
@@ -55,3 +61,4 @@ case "$1" in
     *)
           echo "$0 start|stop|restart|attach|drain" 
 esac
+exit 0
