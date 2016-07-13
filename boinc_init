@@ -14,7 +14,7 @@ BOINC_PATH="/opt/BOINC"
 boinc_start() {
     if [ -x /opt/BOINC/run_client ]; then
         echo "Starting BOINC..."
-        ${BOINC_PATH}/run_client >> ${BOINC_LOG} &
+        ${BOINC_PATH}/run_client --allow_remote_gui_rpc >> ${BOINC_LOG} &
     else
         echo "FAIL: cannot find ${BOINC_PATH}/run_client. Exiting." | tee -a ${BOINC_LOG}
         exit 1
@@ -39,7 +39,7 @@ boinc_drain() {
     sleep 3
     echo "Starting BOINC but will exit when all work units are complete..."
     echo "BOINC restarted with exit_when_idle mode.  Will exit upon completion of work units." | tee -a ${BOINC_LOG}
-    ${BOINC_PATH}/run_client --exit_when_idle >> ${BOINC_LOG}   
+    ${BOINC_PATH}/run_client --exit_when_idle --allow_remote_gui_rpc >> ${BOINC_LOG}  &
 }
 
 case "$1" in
