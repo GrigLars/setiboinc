@@ -21,7 +21,7 @@ apt-get -y install libx11-6 libxss1 multitail
 # - Currently, due to shitty programming on static libssl stuff, I haven't gotten this to
 #   work on current CentOS
 
-if [ -f "/etc/debian_version"]; then 
+if [ ! -f "/etc/debian_version" ]; then 
         echo -e "\e[31;1m$0: ERROR: This can only run on Debian.  Bummer.\e[0m"
         exit 1;
 fi
