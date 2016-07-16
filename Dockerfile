@@ -7,11 +7,9 @@
 
 FROM: debian:latest
 RUN apt-get -y update && apt-get -y install wget libcurl3 libx11-6 libxss1 multitail
-RUN wget -q https://raw.githubusercontent.com/GrigLars/setiboinc/master/boinc_init -O /etc/init.d/boinc
-# wget -q http://boinc.berkeley.edu/dl/boinc_${BOINC_VERSION}_x86_64-pc-linux-gnu.sh 
-# chmod +x /etc/init.d/boinc
-# mkdir -p ${BOINC_ROOT}
-# cd ${BOINC_ROOT}
-
-
+RUN wget -q https://raw.githubusercontent.com/GrigLars/setiboinc/master/boinc_docker_init -O /etc/init.d/boinc \
+    && chmod +x /etc/init.d/boinc \
+RUN mkdir -p ${BOINC_ROOT} && cd ${BOINC_ROOT} \
+    && wget -q http://boinc.berkeley.edu/dl/boinc_${BOINC_VERSION}_x86_64-pc-linux-gnu.sh -P ${BOINC_ROOT} \
+    && sh boinc_${BOINC_VERSION}_x86_64-pc-linux-gnu.sh
 CMD /etc/init.d/boinc attach
