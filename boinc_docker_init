@@ -1,1 +1,54 @@
-# Created 
+#!/bin/sh
+# Simplified init for docker
+# /etc/init.d/boinc
+# Start/stop/restart/attach
+
+# For docker, in relaity, we're only focused on "attach" because of the ephemeral
+#   nature of docker, but I kept the rest in case I'm wrong
+
+# For later: have this log mount outisde the box for debigging purposes
+BOINC_LOG="/var/log/boinc.log"
+BOINC_PATH="/opt/BOINC"
+
+boinc_start() {
+    if [ -x /opt/BOINC/run_client ]; then
+        echo "Starting BOINC..."
+        ${BOINC_PATH}/run_client --allow_remote_gui_rpc | tee -a ${BOINC_LOG}
+    else
+        echo "FAIL: cannot find ${BOINC_PATH}/run_client. Exiting." | tee -a ${BOINC_LOG}
+        exit 1
+    fi
+}
+boinc_attach(){
+    ${BOINC_PATH}/boinc -no_gui_rpc -attach_project http://setiathome.berkeley.edu d14af2375aa9c85dd1251f0f04d09654 | tee  ${BOINC_LOG} 
+    # echo "Starting BOINC with Grig's account attached ..."
+}
+boinc_stop() {
+    echo "Stopping BOINC..."
+    echo "Boinc stopped manually by user $0" | tee -a ${BOINC_LOG}
+    sudo killall boinc
+}
+boinc_restart() {
+    boinc_stop
+    sleep 3
+    boinc_start
+}
+
+
+case "$1" in
+    'start')
+        boinc_start
+          ;;
+    'stop')
+        boinc_stop
+          ;;
+    'restart')
+        boinc_restart
+          ;;
+    'attach')
+        boinc_attach
+          ;;
+    *)
+          echo "$0 start|stop|restart|attach" 
+esac
+exit 0
