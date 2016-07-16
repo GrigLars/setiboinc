@@ -26,7 +26,7 @@ boinc_attach(){
 boinc_stop() {
     echo "Stopping BOINC..."
     echo "Boinc stopped manually by user $0" | tee -a ${BOINC_LOG}
-    sudo killall boinc
+    killall boinc
 }
 boinc_restart() {
     boinc_stop
