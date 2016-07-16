@@ -12,20 +12,20 @@ BOINC_PATH="/opt/BOINC"
 
 boinc_start() {
     if [ -x /opt/BOINC/run_client ]; then
-        echo "Starting BOINC..."
-        ${BOINC_PATH}/run_client --allow_remote_gui_rpc | tee -a ${BOINC_LOG}
+        # echo "Starting BOINC..."
+        ${BOINC_PATH}/run_client --allow_remote_gui_rpc >> ${BOINC_LOG} &
     else
         echo "FAIL: cannot find ${BOINC_PATH}/run_client. Exiting." | tee -a ${BOINC_LOG}
         exit 1
     fi
 }
 boinc_attach(){
-    ${BOINC_PATH}/boinc -no_gui_rpc -attach_project http://setiathome.berkeley.edu d14af2375aa9c85dd1251f0f04d09654 | tee  ${BOINC_LOG} 
+    ${BOINC_PATH}/boinc -no_gui_rpc -attach_project http://setiathome.berkeley.edu d14af2375aa9c85dd1251f0f04d09654 >>  ${BOINC_LOG} &
     # echo "Starting BOINC with Grig's account attached ..."
 }
 boinc_stop() {
-    echo "Stopping BOINC..."
-    echo "Boinc stopped manually by user $0" | tee -a ${BOINC_LOG}
+    # echo "Stopping BOINC..."
+    echo "Boinc stopped manually by user $0" >> ${BOINC_LOG} &
     killall boinc
 }
 boinc_restart() {
