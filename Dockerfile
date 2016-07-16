@@ -1,8 +1,13 @@
-# To change the hostname at runtime 
-#  docker run -h "punkadyne-docker-${RANDOM}" -it  debian /etc/init.d/boinc 
+# Change the hostname at runtime
+#    Go into a working directory (not root) and wget this Dockerfile
+#    $ docker build -f Dockerfile .
+#      [some stuff...]
+#    Successfully built 8de238193c90
+#    $ docker run -h punkadyne-docker 8de238193c90 
 
+# Tested on Debian 8 (Jessie)
 FROM debian:latest
-RUN apt-get update && apt-get install -y wget libcurl3 libx11-6 libxss1 multitail
+RUN apt-get update && apt-get install -y wget libcurl3 libx11-6 libxss1 multitail psmisc 
 RUN wget -q https://raw.githubusercontent.com/GrigLars/setiboinc/master/boinc_docker_init -O /etc/init.d/boinc \
     && chmod +x /etc/init.d/boinc 
 RUN mkdir -p /opt && cd /opt \
