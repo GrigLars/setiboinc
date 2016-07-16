@@ -5,7 +5,7 @@
 # BOINC_PATH="${BOINC_ROOT}/BOINC"
 # BOINC_VERSION="7.2.42"
 
-FROM: debian:latest
+FROM debian:latest
 RUN apt-get -y update && apt-get -y install wget libcurl3 libx11-6 libxss1 multitail
 RUN wget -q https://raw.githubusercontent.com/GrigLars/setiboinc/master/boinc_docker_init -O /etc/init.d/boinc \
     && chmod +x /etc/init.d/boinc \
