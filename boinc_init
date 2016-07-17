@@ -3,31 +3,39 @@
 # Start/stop/restart
 
 # To do
-# - Have color [OK] and such
-# - Better error handling
-# - Have a "boinc status" option
+# - Have a "boinc status" option - not sure what to have as output, though.
 # - Have a "boinc logrotate" option for logrotate
+# - Have a PID in /var/run/ with trap INT escapes, though, for crashes
 
 BOINC_LOG="/var/log/boinc.log"
 BOINC_PATH="/opt/BOINC"
 
 boinc_start() {
-    if [ -x /opt/BOINC/run_client ]; then
-        echo "Starting BOINC..."
+    if [ -x "${BOINC_PATH}/run_client" ]; then
+        echo -n "Starting BOINC..."
         ${BOINC_PATH}/run_client --allow_remote_gui_rpc >> ${BOINC_LOG} &
+        echo -e "\e[32;1m[OK]\e[m"
     else
-        echo "FAIL: cannot find ${BOINC_PATH}/run_client. Exiting." | tee -a ${BOINC_LOG}
+        echo -e "\e[32;1m[FAIL]\e[m: cannot find ${BOINC_PATH}/run_client. Exiting." | tee -a ${BOINC_LOG}
         exit 1
     fi
 }
 boinc_attach(){
+    echo -e "Starting BOINC with Grig's account attached (first run)..."
     ${BOINC_PATH}/boinc -no_gui_rpc -attach_project http://setiathome.berkeley.edu d14af2375aa9c85dd1251f0f04d09654 > ${BOINC_LOG} &
-    echo "Starting BOINC with Grig's account attached (first run)..."
+    
 }
 boinc_stop() {
-    echo "Stopping BOINC..."
-    echo "Boinc stopped manually by user $0" >> ${BOINC_LOG}
-    sudo killall boinc
+    echo -n "Stopping BOINC..."
+    killall boinc
+    if [ $? == "0"]
+    then
+        echo -e "\e[32;1m[OK]\e[m"
+        echo "Boinc stopped manually by user $0" >> ${BOINC_LOG}
+    else
+        echo -e "\e[31;1m[FAIL]\e[m"
+        echo "Boinc stop attempt made, but either boinc is not running or cannot be stopped $0" >> ${BOINC_LOG}
+    fi 
 }
 boinc_restart() {
     boinc_stop
