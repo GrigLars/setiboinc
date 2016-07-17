@@ -3,10 +3,15 @@
 # /etc/init.d/boinc
 # Start/stop/restart/attach
 
-# For docker, in relaity, we're only focused on "attach" because of the ephemeral
-#   nature of docker, but I kept the rest in case I'm wrong
+# For docker, I simplified this since Docker is a very ephemeral thing.  
+#   This has been tested on a vagrant Debian 8 (Jessie) 64 bit, was not installed as
+#   a service (no point), and just runs from the dockerfile
 
-# For later: have this log mount outisde the box for debigging purposes
+# For later: maybe have this log mount outisde the box for debugging purposes, but right now
+#   the various "tee" commands dump it to the TTY anyway, and won't let go until either docker
+#   crashes or is stopped from another terminal interface.  There's probably a better way to do
+#   this, but it "works" and I got other shit to do anyway.
+
 BOINC_LOG="/var/log/boinc.log"
 BOINC_PATH="/opt/BOINC"
 
@@ -20,12 +25,18 @@ boinc_start() {
     fi
 }
 boinc_attach(){
+
+    # In a few cases, "attach" stops and doesn't get more work units unless I restart it, which in Docker world
+    #   means the container stops and then you have to do this all over again.  This is a crude workaround for now.
+
     ${BOINC_PATH}/boinc -no_gui_rpc -attach_project http://setiathome.berkeley.edu d14af2375aa9c85dd1251f0f04d09654 | tee -a  ${BOINC_LOG} && boinc_start
     # echo "Starting BOINC with Grig's account attached ..."
 }
 boinc_stop() {
     # echo "Stopping BOINC..."
     echo "Boinc stopped manually by user $0" >> ${BOINC_LOG} &
+
+    # Found out the hard way that "kill all" needs the "psmisc" pacakge :/
     killall boinc
 }
 boinc_restart() {
