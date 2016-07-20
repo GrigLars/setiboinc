@@ -7,7 +7,7 @@ BOINC_ROOT="/opt"
 BOINC_PATH="${BOINC_ROOT}/BOINC"
 BOINC_VERSION="7.2.42"
 ADDUSER="punkie"
-MYHOMESSH="/home/$ADDUSER/.ssh"
+MYHOMESSH="/home/${ADDUSER}/.ssh"
 
 # Must be run as root
 # This is kind of unsafe: we need to run these as a boinc user
@@ -33,6 +33,7 @@ else
         apt-get -y install libx11-6 libxss1 psmisc multitail sudo
 fi
 
+# Install my keys, assuming the file is on pippi
 if [ ! -d "${MYHOMESSH}" ]; then
                 /bin/echo "$0: No .ssh folder found for ${ADDUSER}.  Creating, and putting in authorized keys."
                 /bin/mkdir -p ${MYHOMESSH}
