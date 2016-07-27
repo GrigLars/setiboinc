@@ -1,5 +1,7 @@
 # Change the hostname at runtime
 #    Go into a working directory (not root) and wget this Dockerfile
+#       make sure it's its own directory, doesn't have other stuff in it
+#       or "sending build context to docker daemon" will go into GB or more
 #    $ docker build -f Dockerfile .
 #      [some stuff...]
 #    Successfully built 8de238193c90
