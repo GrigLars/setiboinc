@@ -49,14 +49,14 @@ MYSUDOERS="${ADDUSER}        ALL=(ALL)       NOPASSWD: ALL"
 /bin/echo ${MYSUDOERS} >> /etc/sudoers.d/10_${ADDUSER}
 
 # Download the init script
-wget -nv https://raw.githubusercontent.com/GrigLars/setiboinc/master/boinc_init -O /etc/init.d/boinc
+wget -nv --no-check-certificate https://raw.githubusercontent.com/GrigLars/setiboinc/master/boinc_init -O /etc/init.d/boinc
 chmod +x /etc/init.d/boinc
 mkdir -p ${BOINC_ROOT}
 cd ${BOINC_ROOT}
 
 # Download right client
 if [ ${MACHINE} == "i686" ]; then
-  wget -nv http://boinc.berkeley.edu/dl/boinc_${BOINC_VERSION}_i686-pc-linux-gnu.sh
+  wget -nv --no-check-certificate http://boinc.berkeley.edu/dl/boinc_${BOINC_VERSION}_i686-pc-linux-gnu.sh
 else
   wget -nv http://boinc.berkeley.edu/dl/boinc_${BOINC_VERSION}_x86_64-pc-linux-gnu.sh
 fi
