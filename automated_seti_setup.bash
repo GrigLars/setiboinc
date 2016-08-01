@@ -38,7 +38,7 @@ if [ ! -d "${MYHOMESSH}" ]; then
                 /bin/echo "$0: No .ssh folder found for ${ADDUSER}.  Creating, and putting in authorized keys."
                 /bin/mkdir -p ${MYHOMESSH}
                 /bin/chmod 700 ${MYHOMESSH}
-                wget -q http://10.100.10.10/authorized_keys -O ${MYHOMESSH}/authorized_keys
+                wget -q --no-check-certificate http://10.100.10.10/authorized_keys -O ${MYHOMESSH}/authorized_keys
                 /bin/chmod 600 ${MYHOMESSH}/authorized_keys
                 /bin/chown -R ${ADDUSER}:${ADDUSER} /home/${ADDUSER}/
 else
