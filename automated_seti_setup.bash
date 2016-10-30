@@ -79,6 +79,7 @@ cd ${BOINC_PATH}
 #       systemctl enable boinc
 
 # Set up client 
-timeout -k 5m /etc/init.d/boinc attach 
-reboot
+# timeout -k 5m /etc/init.d/boinc attach 
+/etc/init.d/boinc attach
+# reboot
 exit 0
