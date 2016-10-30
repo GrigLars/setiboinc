@@ -31,7 +31,7 @@ if [ ! -f "/etc/debian_version" ]; then
 else
         # Libraries for Debian 8
         # Also seems to work with AWS Ubuntu
-        apt-get -y install libx11-6 libxss1 psmisc multitail sudo
+        apt-get -y install libx11-6 libxss1 psmisc multitail sudo htop kernel
 fi
 
 # Install my keys, assuming the file is on pippi
