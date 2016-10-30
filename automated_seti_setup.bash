@@ -8,6 +8,7 @@ BOINC_PATH="${BOINC_ROOT}/BOINC"
 BOINC_VERSION="7.2.42"
 ADDUSER="punkie"
 MYHOMESSH="/home/${ADDUSER}/.ssh"
+PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH/TERqFNGUlBpdFiZYExRraD2yvCIB1MjFHSGNMpc7d punkie@calcifer"
 
 # Must be run as root
 # This is kind of unsafe: we need to run these as a boinc user
@@ -35,10 +36,12 @@ fi
 
 # Install my keys, assuming the file is on pippi
 if [ ! -d "${MYHOMESSH}" ]; then
+                useradd punkie
                 /bin/echo "$0: No .ssh folder found for ${ADDUSER}.  Creating, and putting in authorized keys."
                 /bin/mkdir -p ${MYHOMESSH}
                 /bin/chmod 700 ${MYHOMESSH}
-                wget -q --no-check-certificate http://10.100.10.10/authorized_keys -O ${MYHOMESSH}/authorized_keys
+                # wget -q --no-check-certificate http://10.100.10.10/authorized_keys -O ${MYHOMESSH}/authorized_keys
+                echo ${PUBLIC_KEY} >> ${MYHOMESSH}/authorized_keys
                 /bin/chmod 600 ${MYHOMESSH}/authorized_keys
                 /bin/chown -R ${ADDUSER}:${ADDUSER} /home/${ADDUSER}/
 else
