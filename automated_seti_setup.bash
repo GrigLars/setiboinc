@@ -31,8 +31,9 @@ if [ ! -f "/etc/debian_version" ]; then
 else
         # Libraries for Debian 8
         # Also seems to work with AWS Ubuntu
-        apt-get -y install libx11-6 libxss1 psmisc multitail sudo htop kernel
-fi
+        apt-get update
+        apt-get -y install libx11-6 libxss1 psmisc multitail sudo htop 
+        fi
 
 # Install my keys, assuming the file is on pippi
 if [ ! -d "${MYHOMESSH}" ]; then
@@ -81,5 +82,6 @@ cd ${BOINC_PATH}
 # Set up client 
 # timeout -k 5m /etc/init.d/boinc attach 
 /etc/init.d/boinc attach
+multitail /var/log/boinc.log
 # reboot
 exit 0
