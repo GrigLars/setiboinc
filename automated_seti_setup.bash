@@ -20,12 +20,6 @@ if [ "$(whoami)" != 'root' ]; then
         exit 1;
 fi
 
-
-read -p "My hostname is ${hostname}, what should it be? [ ${HOSTRENAME}-? ]" HOSTRENAME
-echo ${HOSTRENAME} > /etc/hostname 
-hostname -F /etc/hostname 
-echo "127.0.0.1   ${HOSTRENAME}" >> /etc/hosts
-
 # Check machine version
 MACHINE=$(uname -m)
 
@@ -37,6 +31,10 @@ if [ ! -f "/etc/debian_version" ]; then
         echo -e "\e[31;1m$0: ERROR: This can currently only run on Debian.  Bummer.\e[0m"
         exit 1;
 else
+        read -p "My hostname is ${hostname}, what should it be? [ ${HOSTRENAME}-? ]" HOSTRENAME
+        echo ${HOSTRENAME} > /etc/hostname 
+        hostname -F /etc/hostname 
+        echo "127.0.0.1   ${HOSTRENAME}" >> /etc/hosts
         # Libraries for Debian 8
         # Also seems to work with AWS Ubuntu
         apt-get update
@@ -91,7 +89,7 @@ cd ${BOINC_PATH}
 #   at boot, sometimes the machine gets rebooted when I am not looking, or maybe SETI crashes
 
 echo '6 6 * * * root /etc/init.d/boinc restart >> /var/log/boinc.log' >> /etc/crontab
-echo '@reboot sleep 60 && /etc/init.d/boinc start 2>&1 >> /var/log/boinc.log' >> /etc/crontab
+echo '@reboot      root sleep 60 && /etc/init.d/boinc start 2>&1 >> /var/log/boinc.log' >> /etc/crontab
 
 # Set up client 
 /etc/init.d/boinc attach
