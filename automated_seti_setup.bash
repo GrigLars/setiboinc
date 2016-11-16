@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # This should install within seconds a SETI service on my Linux box unattended.  Well, on mine, at any rate.  
-#   Currently (July 2016), this has been tested on Debian 8 (Jessie) 64 and 32 bit servers.
+#   Currently (July 2016), this has been tested on Debian 8 (Jessie) 64 and 32 bit servers, and the 
+#   AWS Ubuntu 14.04 LTS instance
 
 BOINC_ROOT="/opt"
 BOINC_PATH="${BOINC_ROOT}/BOINC"
@@ -9,6 +10,7 @@ BOINC_VERSION="7.2.42"
 ADDUSER="punkie"
 MYHOMESSH="/home/${ADDUSER}/.ssh"
 PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH/TERqFNGUlBpdFiZYExRraD2yvCIB1MjFHSGNMpc7d punkie@calcifer"
+HOSTRENAME="aws-seti0"
 
 # Must be run as root
 # This is kind of unsafe: we need to run these as a boinc user
@@ -17,6 +19,12 @@ if [ "$(whoami)" != 'root' ]; then
         echo -e "\e[31;1m$0: ERROR: You have no permission to run $0 as non-root user.\e[0m"
         exit 1;
 fi
+
+
+read -p "My hostname is ${hostname}, what should it be? [ ${HOSTRENAME}-? ]" HOSTRENAME
+echo ${HOSTRENAME} > /etc/hostname 
+hostname -F /etc/hostname 
+echo "127.0.0.1   ${HOSTRENAME}" >> /etc/hosts
 
 # Check machine version
 MACHINE=$(uname -m)
@@ -79,8 +87,13 @@ cd ${BOINC_PATH}
 
 #       systemctl enable boinc
 
+# This will take care of those moments when boinc just stops, sometimes because I forgot to start it
+#   at boot, sometimes the machine gets rebooted when I am not looking, or maybe SETI crashes
+
+echo '6 6 * * * root /etc/init.d/boinc restart >> /var/log/boinc.log' >> /etc/crontab
+echo '@reboot sleep 60 && /etc/init.d/boinc start 2>&1 >> /var/log/boinc.log' >> /etc/crontab
+
 # Set up client 
-# timeout -k 5m /etc/init.d/boinc attach 
 /etc/init.d/boinc attach
 multitail /var/log/boinc.log
 # reboot
