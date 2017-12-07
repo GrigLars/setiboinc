@@ -10,7 +10,7 @@ BOINC_VERSION="7.4.25"
 ADDUSER="punkie"
 MYHOMESSH="/home/${ADDUSER}/.ssh"
 PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH/TERqFNGUlBpdFiZYExRraD2yvCIB1MjFHSGNMpc7d punkie@calcifer"
-HOSTRENAME="aws-seti0"
+HOSTRENAME="aws-lightsail-seti-0x"
 
 # Must be run as root
 # This is kind of unsafe: we need to run these as a boinc user
@@ -31,10 +31,16 @@ if [ ! -f "/etc/debian_version" ]; then
         echo -e "\e[31;1m$0: ERROR: This can currently only run on Debian.  Bummer.\e[0m"
         exit 1;
 else
-        read -p "My hostname is ${hostname}, what should it be? [ ${HOSTRENAME}-? ]" HOSTRENAME
+        read -p "My hostname is ${HOSTNAME}, what should it be? [def: ${HOSTRENAME}]" HOSTRENAME
         echo ${HOSTRENAME} > /etc/hostname 
-        hostname -F /etc/hostname 
-        echo "127.0.0.1   ${HOSTRENAME}" >> /etc/hosts
+        # hostname -F /etc/hostname 
+        echo "127.0.0.1 localhost" > /etc/hosts
+        echo "127.0.0.1 ${HOSTRENAME}" >> /etc/hosts
+        
+        # New way with Ubuntu 16.04
+        hostnamectl set-hostname ${HOSTRENAME}
+        systemctl restart systemd-logind.service
+                
         # Libraries for Debian 8
         # Also seems to work with AWS Ubuntu
         apt-get update
