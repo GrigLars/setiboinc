@@ -6,7 +6,7 @@
 
 BOINC_ROOT="/opt"
 BOINC_PATH="${BOINC_ROOT}/BOINC"
-BOINC_VERSION="7.2.42"
+BOINC_VERSION="7.4.25"
 ADDUSER="punkie"
 MYHOMESSH="/home/${ADDUSER}/.ssh"
 PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH/TERqFNGUlBpdFiZYExRraD2yvCIB1MjFHSGNMpc7d punkie@calcifer"
@@ -38,7 +38,7 @@ else
         # Libraries for Debian 8
         # Also seems to work with AWS Ubuntu
         apt-get update
-        apt-get -y install libx11-6 libxss1 psmisc multitail sudo htop 
+        apt -y install libx11-6 libxss1 psmisc multitail sudo htop libcurl3
         fi
 
 # Install my keys, assuming the file is on pippi
