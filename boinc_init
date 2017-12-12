@@ -14,10 +14,10 @@ SETI_ACCOUNT="d14af2375aa9c85dd1251f0f04d09654"
 boinc_start() {
     if [ -x "${BOINC_PATH}/run_client" ]; then
         echo -n "Starting BOINC..."
-        ${BOINC_PATH}/run_client --allow_remote_gui_rpc >> ${BOINC_LOG} &
-        echo -e "\e[32;1m[OK]\e[m"
+        ${BOINC_PATH}/boinc -no_gui_rpc >> ${BOINC_LOG} &
+        echo "[OK]"
     else
-        echo -e "\e[32;1m[FAIL]\e[m: cannot find ${BOINC_PATH}/run_client. Exiting." | tee -a ${BOINC_LOG}
+        echo "[FAIL] cannot find ${BOINC_PATH}/run_client. Exiting." | tee -a ${BOINC_LOG}
         exit 1
     fi
 }
@@ -31,10 +31,10 @@ boinc_stop() {
     killall boinc
     if [ $? == "0"]
     then
-        echo -e "\e[32;1m[OK]\e[m"
+        echo [OK]"
         echo "Boinc stopped manually by user $0" >> ${BOINC_LOG}
     else
-        echo -e "\e[31;1m[FAIL]\e[m"
+        echo "[FAIL]"
         echo "Boinc stop attempt made, but either boinc is not running or cannot be stopped $0" >> ${BOINC_LOG}
     fi 
 }
