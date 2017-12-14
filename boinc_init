@@ -17,7 +17,7 @@ boinc_start() {
         ${BOINC_PATH}/boinc -no_gui_rpc >> ${BOINC_LOG} &
         echo "[OK]"
     else
-        echo "[FAIL] cannot find ${BOINC_PATH}/run_client. Exiting." | tee -a ${BOINC_LOG}
+        echo "[FAIL] cannot find ${BOINC_PATH}/boinc. Exiting." | tee -a ${BOINC_LOG}
         exit 1
     fi
 }
@@ -66,9 +66,6 @@ case "$1" in
     'attach')
         boinc_attach
           ;;
-#    'drain')
-#        boinc_drain
-#          ;;
     *)
           echo "$0 start|stop|restart|attach" 
 esac
