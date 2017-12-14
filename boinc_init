@@ -43,15 +43,6 @@ boinc_restart() {
     sleep 3
     boinc_start
 }
-# I commented this out because the "exit_when_idle" seems to have been disabled due to user abuse
-#   but I want to keep it here in case I am wrong.
-# boinc_drain() {
-#    boinc_stop
-#    sleep 3
-#    echo "Starting BOINC but will exit when all work units are complete..."
-#    echo "BOINC restarted with exit_when_idle mode.  Will exit upon completion of work units." | tee -a ${BOINC_LOG}
-#    ${BOINC_PATH}/run_client --exit_when_idle --allow_remote_gui_rpc >> ${BOINC_LOG}  &
-#}
 
 case "$1" in
     'start')
