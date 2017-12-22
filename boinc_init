@@ -31,7 +31,7 @@ boinc_stop() {
     killall boinc
     if [ $? == "0"]
     then
-        echo [OK]"
+        echo "[OK]"
         echo "Boinc stopped manually by user $0" >> ${BOINC_LOG}
     else
         echo "[FAIL]"
