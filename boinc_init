@@ -12,8 +12,9 @@ BOINC_PATH="/opt/BOINC"
 SETI_ACCOUNT="d14af2375aa9c85dd1251f0f04d09654"
 
 boinc_start() {
-    if [ -x "${BOINC_PATH}/run_client" ]; then
+    if [ -x "${BOINC_PATH}/boinc" ]; then
         echo -n "Starting BOINC..."
+        cd ${BOINC_PATH}
         ${BOINC_PATH}/boinc -no_gui_rpc >> ${BOINC_LOG} &
         echo "[OK]"
     else
